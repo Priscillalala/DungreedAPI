@@ -34,6 +34,7 @@ namespace DungreedAPI
             FoodAPI.Init();
             ItemAPI.Init();
             LocalizationAPI.Init();
+            PrefabAPI.Init();
             SetEffectAPI.Init();
 
             MyAccessoryData accessory = ItemAPI.AddAccessory("TestAccessory", ItemRarityTier.UNCOMMON, 1000,
