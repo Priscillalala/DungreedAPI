@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace DungreedAPI
 {
-    public readonly struct Named<T>
-    {
+	public readonly struct Named<T>
+	{
 		public Named(T value, string name)
 		{
 			this.value = value;
@@ -17,9 +17,9 @@ namespace DungreedAPI
 		public override bool Equals(object other)
 		{
 			if (other is Named<T> named)
-            {
+			{
 				return named.name == name && named.value.Equals(value);
-            }
+			}
 			return value != null && value.Equals(other);
 		}
 
