@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DungreedAPI
 {
-	public readonly struct Named<T>
+	public readonly struct Named<T> where T : UnityEngine.Object
 	{
 		public Named(T value, string name)
 		{
