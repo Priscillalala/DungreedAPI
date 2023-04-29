@@ -30,6 +30,7 @@ namespace DungreedAPI
             config = new ConfigFile(configPath, true, Info.Metadata);
             logger = Logger;
 
+            AbilityAPI.Init();
             CostumeAPI.Init();
             FoodAPI.Init();
             ItemAPI.Init();
@@ -70,6 +71,17 @@ namespace DungreedAPI
                 eatClip: Resources.Load<MyFoodData>("foods/VS110_ChocolateCookie").eatClip
                 );
             LocalizationAPI.AddMany((food.aName, "Gingersnap"), (food.aDescription, "Delicious!"));
+
+            Sprite testSprite = bundle.LoadAsset<Sprite>("Gingersnap");
+            MyFullAbilityData ability = AbilityAPI.Add(
+                name: "TestAbility",
+                level5: new AbilityPerk(null, testSprite, testSprite),
+                level10: new AbilityPerk(null, testSprite, testSprite),
+                level20: new AbilityPerk(null, testSprite, testSprite),
+                effects: new[] { Effects.PROTECTIONSHIELD(5) },
+                background: testSprite
+                );
+            LocalizationAPI.AddMany((ability.aName, "Test Ability"), (ability.aDescription, "Ability description."));
         }
     }
 }
