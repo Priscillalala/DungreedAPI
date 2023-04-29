@@ -73,7 +73,7 @@ namespace DungreedAPI
             }
         }
 
-        public static void Add(MyFullAbilityData ability)
+        public static void AddExisting(MyFullAbilityData ability)
         {
             if (MyAbilityManager.Instance.LoadEnd)
             {
@@ -86,7 +86,7 @@ namespace DungreedAPI
             managedAbilities.Add(new Named<MyFullAbilityData>(ability, ability.name));
         }
 
-        public static MyFullAbilityData Add(string name, AbilityPerk level5, AbilityPerk level10, AbilityPerk level20,
+        public static MyFullAbilityData AddNew(string name, AbilityPerk level5, AbilityPerk level10, AbilityPerk level20,
             string[] effects = null,
             Sprite background = null,
             Optional<string> nameKey = default,

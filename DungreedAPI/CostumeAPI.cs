@@ -65,7 +65,7 @@ namespace DungreedAPI
             }
         }
 
-        public static void Add(MyCostumeData costume)
+        public static void AddExisting(MyCostumeData costume)
         {
             if (MyCostumesManager.Instance.IsInitialized)
             {
@@ -78,7 +78,7 @@ namespace DungreedAPI
             managedCostumes.Add(new Named<MyCostumeData>(costume, costume.name));
         }
 
-        public static MyCostumeData Add(string name,
+        public static MyCostumeData AddNew(string name,
             Sprite icon = null,
             bool startsUnlocked = true,
             GameObject resourcePrefab = null,

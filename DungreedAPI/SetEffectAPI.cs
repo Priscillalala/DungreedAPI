@@ -64,7 +64,7 @@ namespace DungreedAPI
             }
         }
 
-        public static void Add(MySetEffectData setEffect)
+        public static void AddExisting(MySetEffectData setEffect)
         {
             if (hasLoadedSetEffects)
             {
@@ -77,8 +77,7 @@ namespace DungreedAPI
             managedSetEffects.Add(new Named<MySetEffectData>(setEffect, setEffect.name));
         }
 
-        public static MySetEffectData Add(string name,
-            Sprite icon = null,
+        public static MySetEffectData AddNew(string name, Sprite icon,
             MyWeaponData mainWeapon = null,
             MyWeaponData offWeapon = null,
             MyAccessoryData[] accessories = null,

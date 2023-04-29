@@ -17,15 +17,15 @@ using BepInEx.Logging;
 namespace DungreedAPI
 {
     [BepInPlugin("com.groovesalad.DungreedAPI", "DungreedAPI", "1.0.0")]
-    public class DungreedAPI : BaseUnityPlugin
+    internal class DungreedAPI : BaseUnityPlugin
     {
-        public static DungreedAPI instance { get; private set; }
+        //public static DungreedAPI instance { get; private set; }
         internal static ConfigFile config { get; private set; }
         internal static ManualLogSource logger { get; private set; }
 
         internal void Awake()
         {
-            instance = this;
+            //instance = this;
             string configPath = Path.Combine(Paths.ConfigPath, "DungreedAPI.cfg");
             config = new ConfigFile(configPath, true, Info.Metadata);
             logger = Logger;
@@ -37,8 +37,10 @@ namespace DungreedAPI
             LocalizationAPI.Init();
             PrefabAPI.Init();
             SetEffectAPI.Init();
+            SkillAPI.Init();
+            SoulPerkAPI.Init();
 
-            MyAccessoryData accessory = ItemAPI.AddAccessory("TestAccessory", ItemRarityTier.UNCOMMON, 1000,
+            MyAccessoryData accessory = ItemAPI.AddNewAccessory("TestAccessory", ItemRarityTier.UNCOMMON, 1000,
                 icon: Resources.Load<MyItemData>("items/0240_RussianRoulette").icon,
                 defense: 10,
                 effects: new[] { Effects.CRITICAL(20), Effects.TOUGHNESS(-5) }
@@ -46,7 +48,7 @@ namespace DungreedAPI
             LocalizationAPI.Add(accessory.aName, "Test Accessory");
             LocalizationAPI.Add(accessory.aDescription, "This is a description...");
 
-            MySetEffectData setEffect = SetEffectAPI.Add("TestSetEffect",
+            MySetEffectData setEffect = SetEffectAPI.AddNew("TestSetEffect",
                 icon: Resources.Load<MyItemData>("items/0240_RussianRoulette").icon,
                 mainWeapon: Resources.Load<MyWeaponData>("items/0240_RussianRoulette"),
                 accessories: new[] { accessory },
@@ -55,7 +57,7 @@ namespace DungreedAPI
             LocalizationAPI.Add(setEffect.aName, "Test Set Effect");
             LocalizationAPI.Add(setEffect.aDescription, "This is a description...For a Set Effect!");
 
-            MyCostumeData costume = CostumeAPI.Add("Test Costome",
+            MyCostumeData costume = CostumeAPI.AddNew("Test Costome",
                 icon: Resources.Load<MyItemData>("items/0240_RussianRoulette").icon,
                 effects: new[] { Effects.ATTACK_SPEED(20) }
                 );
@@ -64,16 +66,15 @@ namespace DungreedAPI
             //LocalizationAPI.AddXmlFile(Path.Combine(Path.GetDirectoryName(Info.Location), "testlanguage.xml"));
             AssetBundle bundle = AssetBundle.LoadFromFile(Path.Combine(Path.GetDirectoryName(Info.Location), "testdungreedassets"));
             
-            MyFoodData food = FoodAPI.Add("Gingersnap", 1200, 35, 3, 6, 0, 10,
+            MyFoodData food = FoodAPI.AddNew("Gingersnap", 1200, 35, new(3, 6), new(0, 10), icon: bundle.LoadAsset<Sprite>("Gingersnap"),
                 foodType: MyFoodData.FoodType.SPECIALTY,
-                icon: bundle.LoadAsset<Sprite>("Gingersnap"),
-                buffEffects: new[] { Effects.EVASION(20) },
+                effects: new[] { Effects.EVASION(20) },
                 eatClip: Resources.Load<MyFoodData>("foods/VS110_ChocolateCookie").eatClip
                 );
             LocalizationAPI.AddMany((food.aName, "Gingersnap"), (food.aDescription, "Delicious!"));
 
             Sprite testSprite = bundle.LoadAsset<Sprite>("Gingersnap");
-            MyFullAbilityData ability = AbilityAPI.Add(
+            MyFullAbilityData ability = AbilityAPI.AddNew(
                 name: "TestAbility",
                 level5: new AbilityPerk(null, testSprite, testSprite),
                 level10: new AbilityPerk(null, testSprite, testSprite),

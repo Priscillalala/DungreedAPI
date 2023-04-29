@@ -123,6 +123,14 @@ namespace DungreedAPI
             }
         }
 
+        public static void AddManyForKey(string key, params (string language, string value)[] data)
+        {
+            for (int i = 0; i < data.Length; i++)
+            {
+                Add(key, data[i].value, data[i].language);
+            }
+        }
+
         public static void AddXmlFile(string path)
         {
             if (alreadyAdded)

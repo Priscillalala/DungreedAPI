@@ -24,7 +24,7 @@ namespace DungreedAPI
                 return _prefabsHolder.transform;
             }
         }
-        internal static GameObject _prefabsHolder;
+        private static GameObject _prefabsHolder;
 
         internal static void Init() { }
         

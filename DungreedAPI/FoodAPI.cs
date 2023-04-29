@@ -75,7 +75,7 @@ namespace DungreedAPI
             }
         }
 
-        public static void Add(MyFoodData food)
+        public static void AddExisting(MyFoodData food)
         {
             if (MyFoodManager.Instance.LoadEnd)
             {
@@ -88,14 +88,12 @@ namespace DungreedAPI
             managedFoods.Add(new Named<MyFoodData>(food, food.name));
         }
 
-        public static MyFoodData Add(string name, int basePrice, int satiety, int randomHealMin, int randomHealMax, float randomPowerMin, float randomPowerMax,
+        public static MyFoodData AddNew(string name, int basePrice, int satiety, Range<int> randomHealing, Range<float> randomPower, Sprite icon,
             MyFoodData.FoodType foodType = MyFoodData.FoodType.NORMAL, 
             bool startsUnlocked = true,
-            bool cannotEatMoreTwo = false,
-            Sprite icon = null,
             GameObject resourcePrefab = null,
             bool canAmplify = true,
-            string[] buffEffects = null,
+            string[] effects = null,
             AudioClip eatClip = null,
             Optional<string> nameKey = default,
             Optional<string> descriptionKey = default)
@@ -108,17 +106,17 @@ namespace DungreedAPI
             food.name = name;
             food.basePrice = basePrice;
             food.satiety = satiety;
-            food.randomHealMin = randomHealMin;
-            food.randomHealMax = randomHealMax;
-            food.randomPowerMin = randomPowerMin;
-            food.randomPowerMax = randomPowerMax;
+            food.randomHealMin = randomHealing.min;
+            food.randomHealMax = randomHealing.max;
+            food.randomPowerMin = randomPower.min;
+            food.randomPowerMax = randomPower.max;
             food.foodType = foodType;
             food.isBasic = startsUnlocked;
-            food.cannotEatMoreTwo = cannotEatMoreTwo;
+            food.cannotEatMoreTwo = false;
             food.icon = icon;
             food.resourcePrefab = resourcePrefab;
             food.canAmplify = canAmplify;
-            food.buffEffects = buffEffects ?? Array.Empty<string>();
+            food.buffEffects = effects ?? Array.Empty<string>();
             food.eatClip = eatClip;
             food.aName = nameKey.Exists ? nameKey.Value : $"Food_{name}_Name";
             food.aDescription = descriptionKey.Exists ? descriptionKey.Value : $"Food_{name}_Description";

@@ -30,7 +30,6 @@ namespace DungreedAPI
                 {
                     continue;
                 }
-                Debug.Log($"Adding item {item.Name} to catalog!");
                 item.Value.id = catalogWrapper.Add(item.Value);
                 self.availableItemsByRarity[item.Value.rarity][item.Value.id] = item.Value;
                 if (TryUnlockManagedItem(item))
@@ -68,7 +67,7 @@ namespace DungreedAPI
             }
         }
 
-        public static void Add(MyItemData item)
+        public static void AddExisting(MyItemData item)
         {
             if (MyItemManager.Instance.LoadEnd)
             {
@@ -81,8 +80,7 @@ namespace DungreedAPI
             managedItems.Add(new Named<MyItemData>(item, item.name));
         }
 
-        public static MyAccessoryData AddAccessory(string name, ItemRarityTier rarity, int price,
-            Sprite icon = null,
+        public static MyAccessoryData AddNewAccessory(string name, ItemRarityTier rarity, int price, Sprite icon,
             bool startsUnlocked = true,
             bool sellAtShop = true,
             bool visibleInList = true,
@@ -128,13 +126,11 @@ namespace DungreedAPI
             accessory.level = 0;
             accessory.nicalis = false;
             accessory.disable = false;
-            Debug.Log($"Adding Item: {name}");
             managedItems.Add(new Named<MyItemData>(accessory, name));
             return accessory;
         }
 
-        public static MyWeaponData AddWeapon(string name, ItemRarityTier rarity, int price, WeaponAttack attack, WeaponHandType handType, WeaponInputType inputType,
-            Sprite icon = null,
+        public static MyWeaponData AddNewWeapon(string name, ItemRarityTier rarity, int price, WeaponAttack attack, WeaponHandType handType, WeaponInputType inputType, Sprite icon,
             bool startsUnlocked = true,
             bool sellAtShop = true,
             bool visibleInList = true,
@@ -183,8 +179,8 @@ namespace DungreedAPI
             weapon.aName = nameKey.Exists ? nameKey.Value : $"Item_{name}_Name";
             weapon.aDescription = descriptionKey.Exists ? descriptionKey.Value : $"Item_{name}_Description";
             weapon.additionalResourcePrefab = additionalResourcePrefab;
-            weapon.damage = attack.minDamage;
-            weapon.maxDamage = attack.maxDamage;
+            weapon.damage = attack.damage.min;
+            weapon.maxDamage = attack.damage.max;
             weapon.reloadType = attack.reload.reloadType;
             weapon.attackType = attack.attackType;
             weapon.inputType = inputType;
@@ -209,5 +205,7 @@ namespace DungreedAPI
             managedItems.Add(new Named<MyItemData>(weapon, name));
             return weapon;
         }
+
+        public static void AddItemToSoulShop(MyItemData item, SoulShopUnlock unlock) => SoulShopUtil.AddItem(item, unlock);
     }
 }
