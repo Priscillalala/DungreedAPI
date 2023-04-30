@@ -26,10 +26,15 @@ namespace DungreedAPI
         {
             orig(self);
             catalogWrapper = new CatalogWrapper<MyAbilityData>(self.abilities, 7);
+            SaveData current = SaveManager.GetCurrent();
             foreach (Named<MyFullAbilityData> ability in managedAbilities)
             {
                 ability.Value.id = catalogWrapper.Add(ability.Value);
-                FixAbilityLevel(ability);
+                if (!current.HasKey(levelFormatter.IdFormat(ability)) && current.TryGetValue(levelFormatter.NameFormat(ability), out int level))
+                {
+                    current[levelFormatter.IdFormat(ability)] = level;
+                    current.Remove(levelFormatter.NameFormat(ability));
+                }
             }
         }
 
@@ -52,23 +57,13 @@ namespace DungreedAPI
             }
         }
 
-        internal static void FixAbilityLevel(Named<MyFullAbilityData> ability)
-        {
-            SaveData current = SaveManager.GetCurrent();
-            if (!current.HasKey(levelFormatter.IdFormat(ability)) && current.TryGetValue(levelFormatter.NameFormat(ability), out int level))
-            {
-                current[levelFormatter.IdFormat(ability)] = level;
-                current.Remove(levelFormatter.NameFormat(ability));
-            }
-        }
-
         private static void SaveInjector_beforeSave(Dictionary<string, SaveData.DataContainer> obj)
         {
             foreach (Named<MyFullAbilityData> ability in managedAbilities)
             {
-                if (obj.TryGetValue(levelFormatter.IdFormat(ability), out SaveData.DataContainer unlockedData))
+                if (obj.TryGetValue(levelFormatter.IdFormat(ability), out SaveData.DataContainer levelData))
                 {
-                    unlockedData.key = levelFormatter.NameFormat(ability);
+                    levelData.key = levelFormatter.NameFormat(ability);
                 }
             }
         }

@@ -31,10 +31,12 @@ namespace DungreedAPI
             logger = Logger;
 
             AbilityAPI.Init();
+            BuildAPI.Init();
             CostumeAPI.Init();
             FoodAPI.Init();
             ItemAPI.Init();
             LocalizationAPI.Init();
+            NpcAPI.Init();
             PrefabAPI.Init();
             SetEffectAPI.Init();
             SkillAPI.Init();
