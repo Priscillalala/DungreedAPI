@@ -84,6 +84,15 @@ namespace DungreedAPI
 
         public static bool HasActiveSoulPerk(this Player player, string key) => playerToActiveSoulPerks.TryGetValue(player, out HashSet<string> keys) && keys.Contains(key);
 
+        /// <summary>
+        /// Add an existing <see cref="MySoulPerkData"/> to the <see cref="MySoulPerksManager"/> catalog, and the Cyox shop if applicable.
+        /// </summary>
+        /// <remarks>
+        /// <paramref name="soulPerk"/> will be assigned a new valid id.
+        /// </remarks>
+        /// <exception cref="InvalidOperationException">The <see cref="MySoulPerksManager"/> catalog has already loaded.</exception>
+        /// <exception cref="ArgumentException"><paramref name="soulPerk"/> is null.</exception>
+        /// <param name="soulPerk">The existing soul perk to add.</param>
         public static void AddExisting(MySoulPerkData soulPerk)
         {
             if (MySoulPerksManager.Instance.LoadEnd)
@@ -97,6 +106,25 @@ namespace DungreedAPI
             managedSoulPerks.Add(new Named<MySoulPerkData>(soulPerk, soulPerk.name));
         }
 
+        /// <summary>
+        /// Creates a new <see cref="MySoulPerkData"/> that is added to the <see cref="MySoulPerksManager"/> catalog and the Cyox shop.
+        /// </summary>
+        /// <remarks>
+        /// <list>
+        /// <item><term><paramref name="name"/></term><description>A name for this perk. Will also be used as the soul perk key.</description></item>
+        /// <item><term><paramref name="unlock"/></term><description>An unlock for this perk in the Cyox shop.</description></item>
+        /// <item><term><paramref name="icon"/></term><description>An icon for this perk.</description></item>
+        /// <item><term><paramref name="nameKey"/></term><description>A localization key for the name of this perk. Will be auto-generated if left default.</description></item>
+        /// <item><term><paramref name="descriptionKey"/></term><description>A localization key for the description of this perk. Will be auto-generated if left default.</description></item>
+        /// </list>
+        /// </remarks>
+        /// <exception cref="InvalidOperationException">The <see cref="MySoulPerksManager"/> catalog has already loaded.</exception>
+        /// <param name="name">A name for this perk. Will also be used as the soul perk key.</param>
+        /// <param name="unlock">An unlock for this perk in the Cyox shop.</param>
+        /// <param name="icon">An icon for this perk.</param>
+        /// <param name="nameKey">A localization key for the name of this perk. Will be auto-generated if left default.</param>
+        /// <param name="descriptionKey">A localization key for the description of this perk. Will be auto-generated if left default.</param>
+        /// <returns></returns>
         public static MySoulPerkData AddNew(string name, SoulShopUnlock unlock, Sprite icon,
             Optional<string> nameKey = default,
             Optional<string> descriptionKey = default)

@@ -13,13 +13,14 @@ namespace DungreedAPI
         internal static StringBuilder stringBuilder => _stringBuilder ??= new StringBuilder();
         internal static StringBuilder _stringBuilder;
 
+        /// <returns>A formatted string.</returns>
         internal static string Effect(string name, object value)
         {
             string result = stringBuilder.Append(name).Append('/').Append(value).ToString();
             stringBuilder.Clear();
             return result;
         }
-
+        /// <inheritdoc cref="Effect(string, object)"/>
         internal static string Effect(string name, params object[] values)
         {
             stringBuilder.Append(name);
@@ -31,26 +32,105 @@ namespace DungreedAPI
             stringBuilder.Clear();
             return result;
         }
-
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Generate a random effect.
+        /// </summary>
         public static string RANDOM_EFFECT() => "RANDOM_EFFECT";
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Generate a random effect for each Daisy Ring.
+        /// </summary>
         public static string RANDOM_EFFECT_DAISY() => "RANDOM_EFFECT_DAISY";
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Generate a random effect for each Gerbera Ring.
+        /// </summary>
         public static string RANDOM_EFFECT_GERBERA() => "RANDOM_EFFECT_GERBERA";
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Increase damage dealt.
+        /// </summary>
         public static string POWER(int value) => Effect("POWER", value);
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Increase damage dealt by weapons.
+        /// </summary>
         public static string POWER_WEAPONSWING(int value) => Effect("POWER_WEAPONSWING", value);
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Flat additional damage applied after defenses.
+        /// </summary>
         public static string TRUE_DAMAGE(int value) => Effect("TRUE_DAMAGE", value);
-        public static string DAMAGE(float value) => Effect("DAMAGE", value);
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Modify miniumum and maximum weapon damage.
+        /// </summary>
+        public static string DAMAGE(float minValue, float maxValue) => Effect("DAMAGE", minValue, maxValue);
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Modify miniumum weapon damage.
+        /// </summary>
         public static string DAMAGE_MIN(float value) => Effect("DAMAGE_MIN", value);
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Modify maximum weapon damage.
+        /// </summary>
         public static string DAMAGE_MAX(float value) => Effect("DAMAGE_MAX", value);
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Reduce all damage recieved.
+        /// </summary>
         public static string DEFENSE(float value) => Effect("DEFENSE", value);
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Reduce all damage recieved by a flat value.
+        /// </summary>
         public static string TOUGHNESS(int value) => Effect("TOUGHNESS", value);
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Reduce damage recieved from melee attacks.
+        /// </summary>
         public static string MELEE_RESIST(float value) => Effect("MELEE_RESIST", value);
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Reduce damage recieved from bullet attacks.
+        /// </summary>
         public static string BULLET_RESIST(float value) => Effect("BULLET_RESIST", value);
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Increase health by a flat value.
+        /// </summary>
         public static string HP(int value) => Effect("HP", value);
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Increase health by a percentage.
+        /// </summary>
         public static string HP_PERCENT(float value) => Effect("HP_PERCENT", value);
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Bonus health which regenerates after clearing a room.
+        /// </summary>
         public static string PROTECTIONSHIELD(int value) => Effect("PROTECTIONSHIELD", value);
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Chance to evade damage.
+        /// </summary>
         public static string EVASION(float value) => Effect("EVASION", value);
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Chance to block damage.
+        /// </summary>
         public static string BLOCK(float value) => Effect("BLOCK", value);
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Chance to deal bonus critical damage.
+        /// </summary>
         public static string CRITICAL(float value) => Effect("CRITICAL", value);
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Increase critical damage.
+        /// </summary>
         public static string CRITICAL_DAMAGE_RATE(float value) => Effect("CRITICAL_DAMAGE_RATE", value);
         public static string REGENERATION_HP(int value) => Effect("REGENERATION_HP", value);
         public static string REGENERATION_HP_NOBATTLE(int value) => Effect("REGENERATION_HP_NOBATTLE", value);
@@ -59,12 +139,32 @@ namespace DungreedAPI
         public static string GOLD_DAMAGE(int value) => Effect("GOLD_DAMAGE", value);
         public static string FINALATK_PERCENT(int value) => Effect("FINALATK_PERCENT", value);
         public static string FINALDEF_PERCENT(int value) => Effect("FINALDEF_PERCENT", value);
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Increase movement speed.
+        /// </summary>
         public static string MOVE_SPEED(float value) => Effect("MOVE_SPEED", value);
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Increase attack speed.
+        /// </summary>
         public static string ATTACK_SPEED(float value) => Effect("ATTACK_SPEED", value);
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Increase reload speed.
+        /// </summary>
         public static string RELOAD_SPEED(float value) => Effect("RELOAD_SPEED", value);
         public static string RAPID_RELOAD() => "RAPID_RELOAD";
         public static string ADD_SHOT_ON_DASH(int value) => Effect("ADD_SHOT_ON_DASH", value);
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Display a positive string.
+        /// </summary>
         public static string STRING(string value) => Effect("STRING", value);
+        /// <inheritdoc cref="Effect(string, object)"/>
+        /// <summary>
+        /// Display a string.
+        /// </summary>
         public static string STRING(string value, StatusModule.EffectType effectType) => Effect("STRING", value, (int)effectType);
         public static string DASH(int value) => Effect("DASH", value);
         public static string ADD_DASH_ON_KILL(int value) => Effect("ADD_DASH_ON_KILL", value);
