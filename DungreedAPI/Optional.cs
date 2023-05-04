@@ -3,7 +3,13 @@ using UnityEngine;
 
 namespace DungreedAPI
 {
-    public readonly struct Optional<T>
+	/// <summary>
+	/// Represents an optional argument that can be passed as default to access a default implementation.
+	/// </summary>
+	/// <remarks>
+	/// Implicitly converts from value of type <typeparamref name="T"/>.
+	/// </remarks>
+	public readonly struct Optional<T>
     {
 		public Optional(T value)
 		{
@@ -24,18 +30,14 @@ namespace DungreedAPI
 			}
 		}
 
-		public T GetRefOrDefault()
+		public T GetValueOrDefault()
 		{
-			return value;
+			return Exists ? value : default;
 		}
 
-		public T GetRefOrDefault(T defaultValue)
+		public T GetValueOrDefault(T defaultValue)
 		{
-			if (!Exists)
-			{
-				return defaultValue;
-			}
-			return value;
+			return Exists ? value : defaultValue;
 		}
 
 		public override bool Equals(object other)

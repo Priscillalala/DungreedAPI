@@ -81,8 +81,8 @@ namespace DungreedAPI
             managedNpcs.Add(new Named<MyNPCData>(npc, npc.name));
         }
 
-        public static MyNPCData AddNew(string name, NPC_Rescuable prefab, int firstStayFloor, int rescueEXPAmount, Sprite icon,
-            GameObject townPrefab = null,
+        public static MyNPCData AddNew(string name, GameObjectWithComponent<NPC_Rescuable> prefab, int firstStayFloor, int rescueEXPAmount, Sprite icon,
+            GameObjectWithComponent<NPC_Basic> townPrefab = null,
             BuildData connectedBuilding = null,
             string[] sayOnRescue = null,
             string[] sayThanksForBuild = null,

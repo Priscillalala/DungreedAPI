@@ -8,6 +8,9 @@ using System.Security;
 
 namespace DungreedAPI
 {
+    /// <summary>
+    /// Create and register costumes for the boutique.
+    /// </summary>
     public static class CostumeAPI
     {
         internal static CatalogWrapper<MyCostumeData> catalogWrapper;
@@ -78,10 +81,8 @@ namespace DungreedAPI
             managedCostumes.Add(new Named<MyCostumeData>(costume, costume.name));
         }
 
-        public static MyCostumeData AddNew(string name,
-            Sprite icon = null,
+        public static MyCostumeData AddNew(string name, GameObjectWithComponent<Char_Costume> prefab, Sprite icon,
             bool startsUnlocked = true,
-            GameObject resourcePrefab = null,
             string[] effects = null,
             MyItemData[] basicEquipmentItems = null,
             Sprite handSprite = null,
@@ -107,7 +108,7 @@ namespace DungreedAPI
             costume.universe = ItemUniverse.NONE;
             costume.tags = null;
             costume.icon = icon;
-            costume.resourcePrefab = resourcePrefab;
+            costume.resourcePrefab = prefab;
             costume.cantAmplifyEffect = false;
             costume.altarBonus = 0;
             costume.allowAdditionalRandomOptions = false;

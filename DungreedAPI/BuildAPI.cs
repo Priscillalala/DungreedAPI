@@ -9,6 +9,9 @@ using UnityEngine.UI;
 
 namespace DungreedAPI
 {
+    /// <summary>
+    /// Create and register town builds.
+    /// </summary>
     public static class BuildAPI
     {
         internal static CatalogWrapper<BuildData> catalogWrapper;
@@ -67,7 +70,7 @@ namespace DungreedAPI
             managedBuilds.Add(new Named<BuildData>(build, build.name));
         }
 
-        public static BuildData AddNew(string name, BuildObject prefab, int buildCost, Sprite icon, Sprite npcIcon,
+        public static BuildData AddNew(string name, GameObjectWithComponent<BuildObject> prefab, int buildCost, Sprite icon, Sprite npcIcon,
             MyItemData[] functionalUnlockItems = null,
             Optional<string> nameKey = default,
             Optional<string> descriptionKey = default,

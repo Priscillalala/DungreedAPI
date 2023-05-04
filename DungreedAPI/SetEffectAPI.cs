@@ -82,7 +82,7 @@ namespace DungreedAPI
             MyWeaponData offWeapon = null,
             MyAccessoryData[] accessories = null,
             string[] effects = null,
-            GameObject setEffectResource = null,
+            GameObjectWithComponent<Player_SetEffect> prefab = null,
             SkillData primarySkill = null,
             SkillData secondarySkill = null,
             Optional<AudioClip> setEffectClip = default,
@@ -100,7 +100,7 @@ namespace DungreedAPI
             setEffect.offWeapon = offWeapon;
             setEffect.accessories = accessories ?? Array.Empty<MyAccessoryData>();
             setEffect.effects = effects ?? Array.Empty<string>();
-            setEffect.setEffectResource = setEffectResource;
+            setEffect.setEffectResource = prefab;
             setEffect.skillQ = primarySkill;
             setEffect.skillE = secondarySkill;
             setEffect.setEffectClip = setEffectClip.Exists ? setEffectClip.Value : defaultSetEffectClip;

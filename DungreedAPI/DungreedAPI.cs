@@ -19,18 +19,16 @@ namespace DungreedAPI
     [BepInPlugin("com.groovesalad.DungreedAPI", "DungreedAPI", "1.0.0")]
     internal class DungreedAPI : BaseUnityPlugin
     {
-        //public static DungreedAPI instance { get; private set; }
         internal static ConfigFile config { get; private set; }
         internal static ManualLogSource logger { get; private set; }
 
         internal void Awake()
         {
-            //instance = this;
             string configPath = Path.Combine(Paths.ConfigPath, "DungreedAPI.cfg");
             config = new ConfigFile(configPath, true, Info.Metadata);
             logger = Logger;
 
-            AbilityAPI.Init();
+            AbilityPathAPI.Init();
             BuildAPI.Init();
             CostumeAPI.Init();
             FoodAPI.Init();
@@ -59,7 +57,7 @@ namespace DungreedAPI
             LocalizationAPI.Add(setEffect.aName, "Test Set Effect");
             LocalizationAPI.Add(setEffect.aDescription, "This is a description...For a Set Effect!");
 
-            MyCostumeData costume = CostumeAPI.AddNew("Test Costome",
+            MyCostumeData costume = CostumeAPI.AddNew("Test Costome", null,
                 icon: Resources.Load<MyItemData>("items/0240_RussianRoulette").icon,
                 effects: new[] { Effects.ATTACK_SPEED(20) }
                 );
@@ -76,11 +74,11 @@ namespace DungreedAPI
             LocalizationAPI.AddMany((food.aName, "Gingersnap"), (food.aDescription, "Delicious!"));
 
             Sprite testSprite = bundle.LoadAsset<Sprite>("Gingersnap");
-            MyFullAbilityData ability = AbilityAPI.AddNew(
+            MyAbilityPathData ability = AbilityPathAPI.AddNew(
                 name: "TestAbility",
-                level5: new AbilityPerk(null, testSprite, testSprite),
-                level10: new AbilityPerk(null, testSprite, testSprite),
-                level20: new AbilityPerk(null, testSprite, testSprite),
+                level5Perk: new AbilityPerk(null, testSprite, testSprite),
+                level10Perk: new AbilityPerk(null, testSprite, testSprite),
+                level20Perk: new AbilityPerk(null, testSprite, testSprite),
                 effects: new[] { Effects.PROTECTIONSHIELD(5) },
                 background: testSprite
                 );

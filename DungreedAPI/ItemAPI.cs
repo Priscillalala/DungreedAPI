@@ -88,7 +88,7 @@ namespace DungreedAPI
             bool appearInTownNPC = true,
             ItemUniverse universe = ItemUniverse.NONE,
             string tags = null,
-            GameObject resourcePrefab = null,
+            GameObjectWithComponent<Player_Accessory> prefab = null,
             bool cantAmplifyEffect = false,
             float altarBonus = 0,
             bool allowAdditionalRandomOptions = true,
@@ -114,7 +114,7 @@ namespace DungreedAPI
             accessory.universe = universe;
             accessory.tags = tags;
             accessory.icon = icon;
-            accessory.resourcePrefab = resourcePrefab;
+            accessory.resourcePrefab = prefab;
             accessory.cantAmplifyEffect = cantAmplifyEffect;
             accessory.altarBonus = altarBonus;
             accessory.allowAdditionalRandomOptions = allowAdditionalRandomOptions;
@@ -138,7 +138,7 @@ namespace DungreedAPI
             bool appearInTownNPC = true,
             ItemUniverse universe = ItemUniverse.NONE,
             string tags = null,
-            GameObject resourcePrefab = null,
+            GameObjectWithComponent<Character_Hand> prefab = null,
             GameObject additionalResourcePrefab = null,
             bool cantAmplifyEffect = false,
             float altarBonus = 0,
@@ -169,7 +169,7 @@ namespace DungreedAPI
             weapon.universe = universe;
             weapon.tags = tags;
             weapon.icon = icon;
-            weapon.resourcePrefab = resourcePrefab;
+            weapon.resourcePrefab = prefab;
             weapon.cantAmplifyEffect = cantAmplifyEffect;
             weapon.altarBonus = altarBonus;
             weapon.allowAdditionalRandomOptions = allowAdditionalRandomOptions;
@@ -190,10 +190,16 @@ namespace DungreedAPI
             weapon.reloadTime = attack.reload.reloadTime;
             weapon.reloadDelayOneShot = attack.reload.reloadDelayPerShot;
             weapon.attackError = attack.spreadAngle;
-            weapon.ammoSpeed = attack.ammoSpeed.speed;
             weapon.ammoSpeedType = attack.ammoSpeed.ammoSpeedType;
-            weapon.ammoSpeedFrom = attack.ammoSpeed.minSpeed;
-            weapon.ammoSpeedTo = attack.ammoSpeed.maxSpeed;
+            if (weapon.ammoSpeedType == MyWeaponData.AmmoType.NORMAL)
+            {
+                weapon.ammoSpeed = attack.ammoSpeed.speed.max;
+            }
+            else
+            {
+                weapon.ammoSpeedFrom = attack.ammoSpeed.speed.min;
+                weapon.ammoSpeedTo = attack.ammoSpeed.speed.max;
+            }
             weapon.allowRandomAccSpeed = attack.ammoSpeed.allowRandomAcceleration;
             weapon.level = 0;
             weapon.nicalis = false;

@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace DungreedAPI
 {
+	/// <summary>
+	/// Associates a <see cref="UnityEngine.Object"/> with a name to avoid repeated access of <see cref="UnityEngine.Object.name"/>.
+	/// </summary>
 	public readonly struct Named<T> where T : UnityEngine.Object
 	{
 		public Named(T value, string name)

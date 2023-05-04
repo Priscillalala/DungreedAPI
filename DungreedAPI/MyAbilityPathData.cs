@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DungreedAPI
 {
-	public class MyFullAbilityData : MyAbilityData
+	public class MyAbilityPathData : MyAbilityData
 	{
 		public Sprite background;
 	}

@@ -85,7 +85,7 @@ namespace DungreedAPI
         public static bool HasActiveSoulPerk(this Player player, string key) => playerToActiveSoulPerks.TryGetValue(player, out HashSet<string> keys) && keys.Contains(key);
 
         /// <summary>
-        /// Add an existing <see cref="MySoulPerkData"/> to the <see cref="MySoulPerksManager"/> catalog, and the Cyox shop if applicable.
+        /// Add an existing <see cref="MySoulPerkData"/> to the <see cref="MySoulPerksManager"/> catalog and the Cyox shop.
         /// </summary>
         /// <remarks>
         /// <paramref name="soulPerk"/> will be assigned a new valid id.
@@ -111,7 +111,7 @@ namespace DungreedAPI
         /// </summary>
         /// <remarks>
         /// <list>
-        /// <item><term><paramref name="name"/></term><description>A name for this perk. Will also be used as the soul perk key.</description></item>
+        /// <item><term><paramref name="name"/></term><description>The name of this perk. Will also be used as the soul perk key.</description></item>
         /// <item><term><paramref name="unlock"/></term><description>An unlock for this perk in the Cyox shop.</description></item>
         /// <item><term><paramref name="icon"/></term><description>An icon for this perk.</description></item>
         /// <item><term><paramref name="nameKey"/></term><description>A localization key for the name of this perk. Will be auto-generated if left default.</description></item>
@@ -119,12 +119,12 @@ namespace DungreedAPI
         /// </list>
         /// </remarks>
         /// <exception cref="InvalidOperationException">The <see cref="MySoulPerksManager"/> catalog has already loaded.</exception>
-        /// <param name="name">A name for this perk. Will also be used as the soul perk key.</param>
+        /// <param name="name">The name of this perk. Will also be used as the soul perk key.</param>
         /// <param name="unlock">An unlock for this perk in the Cyox shop.</param>
         /// <param name="icon">An icon for this perk.</param>
         /// <param name="nameKey">A localization key for the name of this perk. Will be auto-generated if left default.</param>
         /// <param name="descriptionKey">A localization key for the description of this perk. Will be auto-generated if left default.</param>
-        /// <returns></returns>
+        /// <returns>A new <see cref="MySoulPerkData"/>.</returns>
         public static MySoulPerkData AddNew(string name, SoulShopUnlock unlock, Sprite icon,
             Optional<string> nameKey = default,
             Optional<string> descriptionKey = default)
