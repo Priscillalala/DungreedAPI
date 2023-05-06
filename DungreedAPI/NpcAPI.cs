@@ -68,7 +68,7 @@ namespace DungreedAPI
             }
         }
 
-        public static void AddExisting(MyNPCData npc)
+        public static void Add(MyNPCData npc)
         {
             if (MyNPCManager.Instance.LoadEnd)
             {

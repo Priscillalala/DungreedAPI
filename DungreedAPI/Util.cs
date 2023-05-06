@@ -1,4 +1,5 @@
 ﻿using BepInEx;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -31,7 +32,7 @@ namespace DungreedAPI
             }
         }
 
-        public static void CopyTo<T>(this T src, T dest, bool copyFields = true, bool copyProperties = false) where T : ScriptableObject
+        /*public static void CopyTo<T>(this T src, T dest, bool copyFields = true, bool copyProperties = false) where T : ScriptableObject
         {
             if (copyFields)
             {
@@ -54,6 +55,23 @@ namespace DungreedAPI
                     }
                 }
             }
+        }*/
+
+        public static void AddToDelegate<T>(ref T source, T value) where T : Delegate
+        {
+            source = (T)Delegate.Combine(source, value);
+        }
+
+        public static void RemoveFromDelegate<T>(ref T source, T value) where T : Delegate
+        {
+            source = (T)Delegate.Remove(source, value);
+        }
+
+        public static void AppendArray<T>(ref T[] array, T element)
+        {
+            int length = array.Length;
+            Array.Resize(ref array, length + 1);
+            array[length] = element;
         }
     }
 }

@@ -11,6 +11,12 @@ namespace DungreedAPI
     /// <summary>
     /// Create and register food for the food shop or dessert shop.
     /// </summary>
+    /// <remarks>
+    /// <list>
+    /// <item><term><see cref="Add(MyFoodData)"/></term><description>Register an existing <see cref="MyFoodData"/>.</description></item>
+    /// <item><term><see cref="AddNew(string, int, int, Range{int}, Range{float}, Sprite, MyFoodData.FoodType, bool, string[], bool, GameObjectWithComponent{FoodObject}, AudioClip, Optional{string}, Optional{string})"/></term><description>Create and register a new <see cref="MyFoodData"/>.</description></item>
+    /// </list>
+    /// </remarks>
     public static class FoodAPI
     {
         internal static CatalogWrapper<MyFoodData> catalogWrapper;
@@ -79,7 +85,7 @@ namespace DungreedAPI
         }
 
         /// <summary>
-        /// Registers an existing <see cref="MyFoodData"/> to the <see cref="MyFoodManager"/> catalog.
+        /// Register an existing <see cref="MyFoodData"/>.
         /// </summary>
         /// <remarks>
         /// <paramref name="food"/> will be assigned a new valid id.
@@ -87,7 +93,7 @@ namespace DungreedAPI
         /// <exception cref="InvalidOperationException">The <see cref="MyFoodManager"/> catalog has already loaded.</exception>
         /// <exception cref="ArgumentException"><paramref name="food"/> is null.</exception>
         /// <param name="food">The existing food to add.</param>
-        public static void AddExisting(MyFoodData food)
+        public static void Add(MyFoodData food)
         {
             if (MyFoodManager.Instance.LoadEnd)
             {
@@ -101,26 +107,8 @@ namespace DungreedAPI
         }
 
         /// <summary>
-        /// Creates a new <see cref="MyFoodData"/> that is registered to the <see cref="MyFoodManager"/> catalog.
+        /// Create and register a new <see cref="MyFoodData"/>.
         /// </summary>
-        /// <remarks>
-        /// <list>
-        /// <item><term><paramref name="name"/></term><description>The name of this food.</description></item>
-        /// <item><term><paramref name="basePrice"/></term><description>The base price of this food.</description></item>
-        /// <item><term><paramref name="satiety"/></term><description>The satiety gained from eating this food.</description></item>
-        /// <item><term><paramref name="randomHealing"/></term><description>A range of valid healing values for this food.</description></item>
-        /// <item><term><paramref name="randomPower"/></term><description>A range of valid power values for this food.</description></item>
-        /// <item><term><paramref name="icon"/></term><description>An icon for this food.</description></item>
-        /// <item><term><paramref name="foodType"/></term><description>The food type of this food.</description></item>
-        /// <item><term><paramref name="startsUnlocked"/></term><description>Should this food start unlocked?</description></item>
-        /// <item><term><paramref name="effects"/></term><description>Status effects gained by eating this food.</description></item>
-        /// <item><term><paramref name="canAmplify"/></term><description>Can the effects of this food be randomly amplified?</description></item>
-        /// <item><term><paramref name="prefab"/></term><description>A prefab associated with this food.</description></item>
-        /// <item><term><paramref name="eatClip"/></term><description>An audio clip for eating this food.</description></item>
-        /// <item><term><paramref name="nameKey"/></term><description>A localization key for the name of this food. Will be auto-generated if left default.</description></item>
-        /// <item><term><paramref name="descriptionKey"/></term><description>A localization key for the description of this food. Will be auto-generated if left default.</description></item>
-        /// </list>
-        /// </remarks>
         /// <exception cref="InvalidOperationException">The <see cref="MyFoodManager"/> catalog has already loaded.</exception>
         /// <param name="name">The name of this food.</param>
         /// <param name="basePrice">The base price of this food.</param>
@@ -131,7 +119,7 @@ namespace DungreedAPI
         /// <param name="foodType">The food type of this food.</param>
         /// <param name="startsUnlocked">Should this food start unlocked?</param>
         /// <param name="effects">Status effects gained by eating this food.</param>
-        /// <param name="canAmplify">Can the effects of this food be randomly amplified?</param>
+        /// <param name="canAmplifyEffects">Can the effects of this food be randomly amplified?</param>
         /// <param name="prefab">A prefab associated with this food.</param>
         /// <param name="eatClip">An audio clip for eating this food.</param>
         /// <param name="nameKey">A localization key for the name of this food. Will be auto-generated if left default.</param>
@@ -141,7 +129,7 @@ namespace DungreedAPI
             MyFoodData.FoodType foodType = MyFoodData.FoodType.NORMAL, 
             bool startsUnlocked = true,
             string[] effects = null,
-            bool canAmplify = true,
+            bool canAmplifyEffects = true,
             GameObjectWithComponent<FoodObject> prefab = null,
             AudioClip eatClip = null,
             Optional<string> nameKey = default,
@@ -164,7 +152,7 @@ namespace DungreedAPI
             food.cannotEatMoreTwo = false;
             food.icon = icon;
             food.resourcePrefab = prefab;
-            food.canAmplify = canAmplify;
+            food.canAmplify = canAmplifyEffects;
             food.buffEffects = effects ?? Array.Empty<string>();
             food.eatClip = eatClip;
             food.aName = nameKey.Exists ? nameKey.Value : $"Food_{name}_Name";

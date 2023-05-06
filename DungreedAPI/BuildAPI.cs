@@ -12,6 +12,12 @@ namespace DungreedAPI
     /// <summary>
     /// Create and register town builds.
     /// </summary>
+    /// <remarks>
+    /// <list>
+    /// <item><term><see cref="Add(BuildData)"/></term><description>Register an existing <see cref="BuildData"/>.</description></item>
+    /// <item><term><see cref="AddNew(string, GameObjectWithComponent{BuildObject}, int, Sprite, Sprite, MyItemData[], Optional{string}, Optional{string}, Optional{string})"/></term><description>Create and register a new <see cref="BuildData"/>.</description></item>
+    /// </list>
+    /// </remarks>
     public static class BuildAPI
     {
         internal static CatalogWrapper<BuildData> catalogWrapper;
@@ -57,7 +63,16 @@ namespace DungreedAPI
             }
         }
 
-        public static void AddExisting(BuildData build)
+        /// <summary>
+        /// Register an existing <see cref="BuildData"/>.
+        /// </summary>
+        /// <remarks>
+        /// <paramref name="build"/> will be assigned a new valid id.
+        /// </remarks>
+        /// <exception cref="InvalidOperationException">The <see cref="BuildManager"/> catalog has already loaded.</exception>
+        /// <exception cref="ArgumentException"><paramref name="build"/> is null.</exception>
+        /// <param name="build">The existing build to add.</param>
+        public static void Add(BuildData build)
         {
             if (hasLoadedBuilds)
             {
@@ -70,6 +85,20 @@ namespace DungreedAPI
             managedBuilds.Add(new Named<BuildData>(build, build.name));
         }
 
+        /// <summary>
+        /// Create and register a new <see cref="BuildData"/>.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">The <see cref="BuildManager"/> catalog has already loaded.</exception>
+        /// <param name="name">The name of this build.</param>
+        /// <param name="prefab">A prefab for this build.</param>
+        /// <param name="buildCost">The cost to complete this build.</param>
+        /// <param name="icon">An icon for this build.</param>
+        /// <param name="npcIcon">An icon for this build's NPC.</param>
+        /// <param name="functionalUnlockItems">Items unlocked by the completion of this build.</param>
+        /// <param name="nameKey">A localization key for the name of this build. Will be auto-generated if left default.</param>
+        /// <param name="descriptionKey">A localization key for the description of this build. Will be auto-generated if left default.</param>
+        /// <param name="subDescriptionKey">A localization key for the sub-description of this build. Will be auto-generated if left default.</param>
+        /// <returns>A new <see cref="BuildData"/>.</returns>
         public static BuildData AddNew(string name, GameObjectWithComponent<BuildObject> prefab, int buildCost, Sprite icon, Sprite npcIcon,
             MyItemData[] functionalUnlockItems = null,
             Optional<string> nameKey = default,

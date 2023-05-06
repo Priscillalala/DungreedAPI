@@ -12,6 +12,12 @@ namespace DungreedAPI
     /// <summary>
     /// Create and register training center ability paths.
     /// </summary>
+    /// <remarks>
+    /// <list>
+    /// <item><term><see cref="Add(MyAbilityPathData)"/></term><description>Register an existing <see cref="MyAbilityPathData"/>.</description></item>
+    /// <item><term><see cref="AddNew(string, AbilityPerk, AbilityPerk, AbilityPerk, string[], Sprite, Optional{string}, Optional{string})"/></term><description>Create and register a new <see cref="MyAbilityPathData"/>.</description></item>
+    /// </list>
+    /// </remarks>
     public static class AbilityPathAPI
     {
         internal static CatalogWrapper<MyAbilityData> catalogWrapper;
@@ -72,7 +78,7 @@ namespace DungreedAPI
         }
 
         /// <summary>
-        /// Registers an existing <see cref="MyAbilityPathData"/> to the <see cref="MyAbilityManager"/> catalog.
+        /// Register an existing <see cref="MyAbilityPathData"/>.
         /// </summary>
         /// <remarks>
         /// <paramref name="abilityPath"/> will be assigned a new valid id.
@@ -80,7 +86,7 @@ namespace DungreedAPI
         /// <exception cref="InvalidOperationException">The <see cref="MyAbilityManager"/> catalog has already loaded.</exception>
         /// <exception cref="ArgumentException"><paramref name="abilityPath"/> is null.</exception>
         /// <param name="abilityPath">The existing ability path to add.</param>
-        public static void AddExisting(MyAbilityPathData abilityPath)
+        public static void Add(MyAbilityPathData abilityPath)
         {
             if (MyAbilityManager.Instance.LoadEnd)
             {
@@ -94,25 +100,13 @@ namespace DungreedAPI
         }
 
         /// <summary>
-        /// Creates a new <see cref="MyAbilityPathData"/> that is registered to the <see cref="MyAbilityManager"/> catalog.
+        /// Create and register a new <see cref="MyAbilityPathData"/>.
         /// </summary>
-        /// <remarks>
-        /// <list>
-        /// <item><term><paramref name="name"/></term><description>The name of this ability path.</description></item>
-        /// <item><term><paramref name="level5Perk"/></term><description>A perk unlocked at ability path level 5.</description></item>
-        /// <item><term><paramref name="level10Perk"/></term><description>A perk unlocked at ability path level 10.</description></item>
-        /// <item><term><paramref name="level20Perk"/></term><description>A perk unlocked at ability path level 20.</description></item>
-        /// <item><term><paramref name="effects"/></term><description>Status effects applied for each level of this ability path.</description></item>
-        /// <item><term><paramref name="background"/></term><description>A background image for this ability path.</description></item>
-        /// <item><term><paramref name="nameKey"/></term><description>A localization key for the name of this ability path. Will be auto-generated if left default.</description></item>
-        /// <item><term><paramref name="descriptionKey"/></term><description>A localization key for the description of this ability path. Will be auto-generated if left default.</description></item>
-        /// </list>
-        /// </remarks>
         /// <exception cref="InvalidOperationException">The <see cref="MyAbilityManager"/> catalog has already loaded.</exception>
         /// <param name="name">The name of this ability path.</param>
-        /// <param name="level5Perk">A perk unlocked at ability path level 5.</param>
-        /// <param name="level10Perk">A perk unlocked at ability path level 10.</param>
-        /// <param name="level20Perk">A perk unlocked at ability path level 20.</param>
+        /// <param name="level5Perk">A perk unlocked at path level 5.</param>
+        /// <param name="level10Perk">A perk unlocked at path level 10.</param>
+        /// <param name="level20Perk">A perk unlocked at path level 20.</param>
         /// <param name="effects">Status effects applied for each level of this ability path.</param>
         /// <param name="background">A background image for this ability path.</param>
         /// <param name="nameKey">A localization key for the name of this ability path. Will be auto-generated if left default.</param>

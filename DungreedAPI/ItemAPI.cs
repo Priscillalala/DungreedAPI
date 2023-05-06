@@ -8,6 +8,15 @@ using System.Security;
 
 namespace DungreedAPI
 {
+    /// <summary>
+    /// Create and register weapons and accessories.
+    /// </summary>
+    /// <remarks>
+    /// <list>
+    /// <item><term><see cref=""/></term><description>Register an existing <see cref="MyFoodData"/>.</description></item>
+    /// <item><term><see cref=""/></term><description>Create and register a new <see cref="MyFoodData"/>.</description></item>
+    /// </list>
+    /// </remarks>
     public static class ItemAPI
     {
         internal static CatalogWrapper<MyItemData> catalogWrapper;
@@ -67,7 +76,16 @@ namespace DungreedAPI
             }
         }
 
-        public static void AddExisting(MyItemData item)
+        /// <summary>
+        /// Register an existing <see cref="MyItemData"/>.
+        /// </summary>
+        /// <remarks>
+        /// <paramref name="item"/> will be assigned a new valid id.
+        /// </remarks>
+        /// <exception cref="InvalidOperationException">The <see cref="MyItemManager"/> catalog has already loaded.</exception>
+        /// <exception cref="ArgumentException"><paramref name="item"/> is null.</exception>
+        /// <param name="item">The existing item to add.</param>
+        public static void Add(MyItemData item)
         {
             if (MyItemManager.Instance.LoadEnd)
             {
@@ -80,16 +98,39 @@ namespace DungreedAPI
             managedItems.Add(new Named<MyItemData>(item, item.name));
         }
 
+        /// <summary>
+        /// Create and register a new <see cref="MyAccessoryData"/>.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">The <see cref="MyFoodManager"/> catalog has already loaded.</exception>
+        /// <param name="name">The name of this accessory.</param>
+        /// <param name="rarity">The rarity of this accessory.</param>
+        /// <param name="price">The price of this accessory.</param>
+        /// <param name="icon">An icon for this accessory.</param>
+        /// <param name="startsUnlocked">Should this accessory start unlocked?</param>
+        /// <param name="visibleInItemList">Should this accessory appear in the item list?</param>
+        /// <param name="isSpecial">Should this accessory be excluded from the item pool?</param>
+        /// <param name="shopAvailability">Which NPC shops can this accessory appear in?</param>
+        /// <param name="universe">Which universe is this accessory in?</param>
+        /// <param name="tags">#Tags associated with this accessory.</param>
+        /// <param name="prefab">A prefab for this accessory.</param>
+        /// <param name="canAmplifyEffects">Can the effects of this accessory be randomly amplified?</param>
+        /// <param name="altarBonus">Boosts the altar sacrifice value of this acccessory.</param>
+        /// <param name="allowAdditionalRandomOptions">Can additional random effects be added to this accessory?</param>
+        /// <param name="effects">Status effects granted by this acccessory.</param>
+        /// <param name="randomEffects">Status effects sometimes granted by this acccessory.</param>
+        /// <param name="defense">A defense value granted by this accessory.</param>
+        /// <param name="nameKey">A localization key for the name of this accessory. Will be auto-generated if left default.</param>
+        /// <param name="descriptionKey">A localization key for the description of this accessory. Will be auto-generated if left default.</param>
+        /// <returns>A new <see cref="MyAccessoryData"/>.</returns>
         public static MyAccessoryData AddNewAccessory(string name, ItemRarityTier rarity, int price, Sprite icon,
             bool startsUnlocked = true,
-            bool sellAtShop = true,
-            bool visibleInList = true,
+            bool visibleInItemList = true,
             bool isSpecial = false,
-            bool appearInTownNPC = true,
+            NPCShopAvailability shopAvailability = NPCShopAvailability.All,
             ItemUniverse universe = ItemUniverse.NONE,
             string tags = null,
             GameObjectWithComponent<Player_Accessory> prefab = null,
-            bool cantAmplifyEffect = false,
+            bool canAmplifyEffects = true,
             float altarBonus = 0,
             bool allowAdditionalRandomOptions = true,
             string[] effects = null,
@@ -107,15 +148,28 @@ namespace DungreedAPI
             accessory.rarity = rarity;
             accessory.price = price;
             accessory.basicItem = startsUnlocked;
-            accessory.sellAtShop = sellAtShop;
-            accessory.visibleInList = visibleInList;
+            accessory.visibleInList = visibleInItemList;
             accessory.isSpecial = isSpecial;
-            accessory.appearInTownNPC = appearInTownNPC;
+            switch (shopAvailability)
+            {
+                case NPCShopAvailability.All:
+                    accessory.sellAtShop = true;
+                    accessory.appearInTownNPC = true;
+                    break;
+                case NPCShopAvailability.DungeonOnly:
+                    accessory.sellAtShop = true;
+                    accessory.appearInTownNPC = false;
+                    break;
+                case NPCShopAvailability.None:
+                    accessory.sellAtShop = false;
+                    accessory.appearInTownNPC = false;
+                    break;
+            }
             accessory.universe = universe;
             accessory.tags = tags;
             accessory.icon = icon;
             accessory.resourcePrefab = prefab;
-            accessory.cantAmplifyEffect = cantAmplifyEffect;
+            accessory.cantAmplifyEffect = !canAmplifyEffects;
             accessory.altarBonus = altarBonus;
             accessory.allowAdditionalRandomOptions = allowAdditionalRandomOptions;
             accessory.effects = effects ?? Array.Empty<string>();

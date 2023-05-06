@@ -35,54 +35,21 @@ namespace DungreedAPI
             ItemAPI.Init();
             LocalizationAPI.Init();
             NpcAPI.Init();
+            PostProcessingAPI.Init();
             PrefabAPI.Init();
             SetEffectAPI.Init();
             SkillAPI.Init();
             SoulPerkAPI.Init();
+            TimeScaleAPI.Init();
+        }
 
-            MyAccessoryData accessory = ItemAPI.AddNewAccessory("TestAccessory", ItemRarityTier.UNCOMMON, 1000,
-                icon: Resources.Load<MyItemData>("items/0240_RussianRoulette").icon,
-                defense: 10,
-                effects: new[] { Effects.CRITICAL(20), Effects.TOUGHNESS(-5) }
-                );
-            LocalizationAPI.Add(accessory.aName, "Test Accessory");
-            LocalizationAPI.Add(accessory.aDescription, "This is a description...");
-
-            MySetEffectData setEffect = SetEffectAPI.AddNew("TestSetEffect",
-                icon: Resources.Load<MyItemData>("items/0240_RussianRoulette").icon,
-                mainWeapon: Resources.Load<MyWeaponData>("items/0240_RussianRoulette"),
-                accessories: new[] { accessory },
-                effects: new[] { Effects.PROTECTIONSHIELD(30) }
-                );
-            LocalizationAPI.Add(setEffect.aName, "Test Set Effect");
-            LocalizationAPI.Add(setEffect.aDescription, "This is a description...For a Set Effect!");
-
-            MyCostumeData costume = CostumeAPI.AddNew("Test Costome", null,
-                icon: Resources.Load<MyItemData>("items/0240_RussianRoulette").icon,
-                effects: new[] { Effects.ATTACK_SPEED(20) }
-                );
-            LocalizationAPI.Add(costume.aName, "Test Costume");
-            LocalizationAPI.Add(costume.aDescription, "This is a description...For a Costume!");
-            //LocalizationAPI.AddXmlFile(Path.Combine(Path.GetDirectoryName(Info.Location), "testlanguage.xml"));
-            AssetBundle bundle = AssetBundle.LoadFromFile(Path.Combine(Path.GetDirectoryName(Info.Location), "testdungreedassets"));
-            
-            MyFoodData food = FoodAPI.AddNew("Gingersnap", 1200, 35, new(3, 6), new(0, 10), icon: bundle.LoadAsset<Sprite>("Gingersnap"),
-                foodType: MyFoodData.FoodType.SPECIALTY,
-                effects: new[] { Effects.EVASION(20) },
-                eatClip: Resources.Load<MyFoodData>("foods/VS110_ChocolateCookie").eatClip
-                );
-            LocalizationAPI.AddMany((food.aName, "Gingersnap"), (food.aDescription, "Delicious!"));
-
-            Sprite testSprite = bundle.LoadAsset<Sprite>("Gingersnap");
-            MyAbilityPathData ability = AbilityPathAPI.AddNew(
-                name: "TestAbility",
-                level5Perk: new AbilityPerk(null, testSprite, testSprite),
-                level10Perk: new AbilityPerk(null, testSprite, testSprite),
-                level20Perk: new AbilityPerk(null, testSprite, testSprite),
-                effects: new[] { Effects.PROTECTIONSHIELD(5) },
-                background: testSprite
-                );
-            LocalizationAPI.AddMany((ability.aName, "Test Ability"), (ability.aDescription, "Ability description."));
+        internal void Update()
+        {
+            if (PostProcessingAPI.shouldUpdate)
+            {
+                PostProcessingAPI.shouldUpdate = false;
+                PostProcessingAPI.Update(false);
+            }
         }
     }
 }

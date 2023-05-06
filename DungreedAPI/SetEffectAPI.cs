@@ -64,7 +64,7 @@ namespace DungreedAPI
             }
         }
 
-        public static void AddExisting(MySetEffectData setEffect)
+        public static void Add(MySetEffectData setEffect)
         {
             if (hasLoadedSetEffects)
             {

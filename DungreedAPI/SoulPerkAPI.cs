@@ -93,7 +93,7 @@ namespace DungreedAPI
         /// <exception cref="InvalidOperationException">The <see cref="MySoulPerksManager"/> catalog has already loaded.</exception>
         /// <exception cref="ArgumentException"><paramref name="soulPerk"/> is null.</exception>
         /// <param name="soulPerk">The existing soul perk to add.</param>
-        public static void AddExisting(MySoulPerkData soulPerk)
+        public static void Add(MySoulPerkData soulPerk)
         {
             if (MySoulPerksManager.Instance.LoadEnd)
             {

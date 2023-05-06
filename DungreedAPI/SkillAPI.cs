@@ -28,7 +28,7 @@ namespace DungreedAPI
             }
         }
 
-        public static void AddExistingDogSkill(SkillData dogSkill)
+        public static void AddDogSkill(SkillData dogSkill)
         {
             if (MyDogSkillManager.Instance.LoadEnd)
             {
@@ -41,7 +41,7 @@ namespace DungreedAPI
             managedDogSkills.Add(new Named<SkillData>(dogSkill, dogSkill.name));
         }
 
-        public static TSkillData CreateSkill<TSkillData>(string name, float cooldown, Sprite icon,
+        public static TSkillData NewSkill<TSkillData>(string name, float cooldown, Sprite icon,
             Action<TSkillData> setupSkill = null,
             AudioClip castClip = null,
             bool useOnAttackAnimation = false,

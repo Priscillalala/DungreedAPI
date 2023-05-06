@@ -79,12 +79,12 @@ namespace DungreedAPI
         public static string DAMAGE_MAX(float value) => Effect("DAMAGE_MAX", value);
         /// <inheritdoc cref="Effect(string, object)"/>
         /// <summary>
-        /// Reduce all damage recieved.
+        /// Reduce all incoming damage.
         /// </summary>
         public static string DEFENSE(float value) => Effect("DEFENSE", value);
         /// <inheritdoc cref="Effect(string, object)"/>
         /// <summary>
-        /// Reduce all damage recieved by a flat value.
+        /// Reduce all incoming damage by a flat value.
         /// </summary>
         public static string TOUGHNESS(int value) => Effect("TOUGHNESS", value);
         /// <inheritdoc cref="Effect(string, object)"/>

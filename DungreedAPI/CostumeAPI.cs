@@ -68,7 +68,7 @@ namespace DungreedAPI
             }
         }
 
-        public static void AddExisting(MyCostumeData costume)
+        public static void Add(MyCostumeData costume)
         {
             if (MyCostumesManager.Instance.IsInitialized)
             {
