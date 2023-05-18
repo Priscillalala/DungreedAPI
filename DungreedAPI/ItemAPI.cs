@@ -13,8 +13,10 @@ namespace DungreedAPI
     /// </summary>
     /// <remarks>
     /// <list>
-    /// <item><term><see cref=""/></term><description>Register an existing <see cref="MyFoodData"/>.</description></item>
-    /// <item><term><see cref=""/></term><description>Create and register a new <see cref="MyFoodData"/>.</description></item>
+    /// <item><term><see cref="Add(MyItemData)"/></term><description>Register an existing <see cref="MyItemData"/>.</description></item>
+    /// <item><term><see cref="AddNewAccessory(string, ItemRarityTier, int, Sprite, bool, bool, bool, NPCShopAvailability, ItemUniverse, string, GameObjectWithComponent{Player_Accessory}, bool, float, bool, string[], string[], int, Optional{string}, Optional{string})"/></term><description>Create and register a new <see cref="MyAccessoryData"/>.</description></item>
+    /// <item><term><see cref="AddNewWeapon(string, ItemRarityTier, int, WeaponAttack, WeaponHandType, WeaponInputType, Sprite, bool, bool, bool, NPCShopAvailability, ItemUniverse, string, GameObjectWithComponent{Character_Hand}, GameObject, bool, float, bool, string[], string[], int, SkillData, SkillData, Vector2, float, Optional{string}, Optional{string})"/></term><description>Create and register a new <see cref="MyWeaponData"/>.</description></item>
+    /// <item><term><see cref="AddItemToSoulShop(MyItemData, SoulShopUnlock)"/></term><description>Add an item to the Cyox shop.</description></item>
     /// </list>
     /// </remarks>
     public static class ItemAPI
@@ -56,7 +58,7 @@ namespace DungreedAPI
             if (item.Value.basicItem)
             {
                 unlocked = true;
-            } 
+            }
             else if (!current.TryGetValue(isUnlockedFormatter.IdFormat(item), out unlocked) && current.TryGetValue(isUnlockedFormatter.NameFormat(item), out unlocked))
             {
                 current[isUnlockedFormatter.IdFormat(item)] = unlocked;
@@ -101,7 +103,7 @@ namespace DungreedAPI
         /// <summary>
         /// Create and register a new <see cref="MyAccessoryData"/>.
         /// </summary>
-        /// <exception cref="InvalidOperationException">The <see cref="MyFoodManager"/> catalog has already loaded.</exception>
+        /// <exception cref="InvalidOperationException">The <see cref="MyItemManager"/> catalog has already loaded.</exception>
         /// <param name="name">The name of this accessory.</param>
         /// <param name="rarity">The rarity of this accessory.</param>
         /// <param name="price">The price of this accessory.</param>
@@ -116,7 +118,7 @@ namespace DungreedAPI
         /// <param name="canAmplifyEffects">Can the effects of this accessory be randomly amplified?</param>
         /// <param name="altarBonus">Boosts the altar sacrifice value of this acccessory.</param>
         /// <param name="allowAdditionalRandomOptions">Can additional random effects be added to this accessory?</param>
-        /// <param name="effects">Status effects granted by this acccessory.</param>
+        /// <param name="effects">Status effects granted by this accessory.</param>
         /// <param name="randomEffects">Status effects sometimes granted by this acccessory.</param>
         /// <param name="defense">A defense value granted by this accessory.</param>
         /// <param name="nameKey">A localization key for the name of this accessory. Will be auto-generated if left default.</param>
@@ -184,17 +186,48 @@ namespace DungreedAPI
             return accessory;
         }
 
+        /// <summary>
+        /// Create and register a new <see cref="MyWeaponData"/>.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">The <see cref="MyItemManager"/> catalog has already loaded.</exception>
+        /// <param name="name">The name of this weapon.</param>
+        /// <param name="rarity">The rarity of this weapon.</param>
+        /// <param name="price">The price of this weapon.</param>
+        /// <param name="attack">An attack for this weapon.</param>
+        /// <param name="handType">The hand type of this weapon.</param>
+        /// <param name="inputType">The input type of this weapon.</param>
+        /// <param name="icon">An icon for this weapon.</param>
+        /// <param name="startsUnlocked">Should this weapon start unlocked?</param>
+        /// <param name="visibleInItemList">Should this weapon appear in the item list?</param>
+        /// <param name="isSpecial">Should this weapon be excluded from the item pool?</param>
+        /// <param name="shopAvailability">Which NPC shops can this weapon appear in?</param>
+        /// <param name="universe">Which universe is this weapon in?</param>
+        /// <param name="tags">#Tags associated with this weapon.</param>
+        /// <param name="prefab">A prefab for this weapon.</param>
+        /// <param name="additionalResourcePrefab">An additional visual prefab for this weapon.</param>
+        /// <param name="canAmplifyEffects">Can the effects of this accessory be randomly amplified?</param>
+        /// <param name="altarBonus">Boosts the altar sacrifice value of this weapon.</param>
+        /// <param name="allowAdditionalRandomOptions">Can additional random effects be added to this accessory?</param>
+        /// <param name="effects">Status effects granted by this weapon.</param>
+        /// <param name="randomEffects">Status effects sometimes granted by this weapon.</param>
+        /// <param name="defense">A defense value granted by this weapon.</param>
+        /// <param name="primarySkill">A primary skill for this weapon.</param>
+        /// <param name="secondarySkill">A secondary skill for this weapon.</param>
+        /// <param name="spriteOffset">An offset for this weapon's icon used by player 2 items.</param>
+        /// <param name="attackSpeedMultiplier">An attack speed multiplier when using this weapon.</param>
+        /// <param name="nameKey">A localization key for the name of this weapon. Will be auto-generated if left default.</param>
+        /// <param name="descriptionKey">A localization key for the description of this weapon. Will be auto-generated if left default.</param>
+        /// <returns>A new <see cref="MyWeaponData"/>.</returns>
         public static MyWeaponData AddNewWeapon(string name, ItemRarityTier rarity, int price, WeaponAttack attack, WeaponHandType handType, WeaponInputType inputType, Sprite icon,
             bool startsUnlocked = true,
-            bool sellAtShop = true,
-            bool visibleInList = true,
+            bool visibleInItemList = true,
             bool isSpecial = false,
-            bool appearInTownNPC = true,
+            NPCShopAvailability shopAvailability = NPCShopAvailability.All,
             ItemUniverse universe = ItemUniverse.NONE,
             string tags = null,
             GameObjectWithComponent<Character_Hand> prefab = null,
             GameObject additionalResourcePrefab = null,
-            bool cantAmplifyEffect = false,
+            bool canAmplifyEffects = false,
             float altarBonus = 0,
             bool allowAdditionalRandomOptions = true,
             string[] effects = null,
@@ -216,15 +249,28 @@ namespace DungreedAPI
             weapon.rarity = rarity;
             weapon.price = price;
             weapon.basicItem = startsUnlocked;
-            weapon.sellAtShop = sellAtShop;
-            weapon.visibleInList = visibleInList;
+            weapon.visibleInList = visibleInItemList;
             weapon.isSpecial = isSpecial;
-            weapon.appearInTownNPC = appearInTownNPC;
+            switch (shopAvailability)
+            {
+                case NPCShopAvailability.All:
+                    weapon.sellAtShop = true;
+                    weapon.appearInTownNPC = true;
+                    break;
+                case NPCShopAvailability.DungeonOnly:
+                    weapon.sellAtShop = true;
+                    weapon.appearInTownNPC = false;
+                    break;
+                case NPCShopAvailability.None:
+                    weapon.sellAtShop = false;
+                    weapon.appearInTownNPC = false;
+                    break;
+            }
             weapon.universe = universe;
             weapon.tags = tags;
             weapon.icon = icon;
             weapon.resourcePrefab = prefab;
-            weapon.cantAmplifyEffect = cantAmplifyEffect;
+            weapon.cantAmplifyEffect = !canAmplifyEffects;
             weapon.altarBonus = altarBonus;
             weapon.allowAdditionalRandomOptions = allowAdditionalRandomOptions;
             weapon.effects = effects ?? Array.Empty<string>();
@@ -266,6 +312,11 @@ namespace DungreedAPI
             return weapon;
         }
 
+        /// <summary>
+        /// Add an item to the Cyox shop.
+        /// </summary>
+        /// <param name="item">The item to be added.</param>
+        /// <param name="unlock">An unlock for this item in the Cyox shop.</param>
         public static void AddItemToSoulShop(MyItemData item, SoulShopUnlock unlock) => SoulShopUtil.AddItem(item, unlock);
     }
 }

@@ -28,6 +28,7 @@ namespace DungreedAPI
             config = new ConfigFile(configPath, true, Info.Metadata);
             logger = Logger;
 
+            SaveInjector.Init();
             AbilityPathAPI.Init();
             BuildAPI.Init();
             CostumeAPI.Init();
@@ -43,7 +44,7 @@ namespace DungreedAPI
             TimeScaleAPI.Init();
         }
 
-        internal void Update()
+        internal void LateUpdate()
         {
             if (PostProcessingAPI.shouldUpdate)
             {

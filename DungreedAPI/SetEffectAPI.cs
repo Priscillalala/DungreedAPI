@@ -8,6 +8,15 @@ using System.Security;
 
 namespace DungreedAPI
 {
+    /// <summary>
+    /// Create and register item set effects.
+    /// </summary>
+    /// <remarks>
+    /// <list>
+    /// <item><term><see cref="Add(MySetEffectData)"/></term><description>Register an existing <see cref="MySetEffectData"/>.</description></item>
+    /// <item><term><see cref="AddNew(string, Sprite, MyWeaponData, MyWeaponData, MyAccessoryData[], string[], GameObjectWithComponent{Player_SetEffect}, SkillData, SkillData, Optional{AudioClip}, Optional{string}, Optional{string})"/></term><description>Create and register a new <see cref="MySetEffectData"/>.</description></item>
+    /// </list>
+    /// </remarks>
     public static class SetEffectAPI
     {
         internal static CatalogWrapper<MySetEffectData> catalogWrapper;
@@ -64,6 +73,15 @@ namespace DungreedAPI
             }
         }
 
+        /// <summary>
+        /// Register an existing <see cref="MySetEffectData"/>.
+        /// </summary>
+        /// <remarks>
+        /// <paramref name="setEffect"/> will be assigned a new valid id.
+        /// </remarks>
+        /// <exception cref="InvalidOperationException">The <see cref="MySetEffectManager"/> catalog has already loaded.</exception>
+        /// <exception cref="ArgumentException"><paramref name="setEffect"/> is null.</exception>
+        /// <param name="setEffect">The existing build to add.</param>
         public static void Add(MySetEffectData setEffect)
         {
             if (hasLoadedSetEffects)
@@ -77,6 +95,23 @@ namespace DungreedAPI
             managedSetEffects.Add(new Named<MySetEffectData>(setEffect, setEffect.name));
         }
 
+        /// <summary>
+        /// Create and register a new <see cref="MySetEffectData"/>.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">The <see cref="MySetEffectManager"/> catalog has already loaded.</exception>
+        /// <param name="name">The name of this set effect.</param>
+        /// <param name="icon">An icon for this set effect.</param>
+        /// <param name="mainWeapon">A main hand weapon required to activate this set effect.</param>
+        /// <param name="offWeapon">An off hand weapon required to activate this set effect.</param>
+        /// <param name="accessories">Accessories required to activate this set effect.</param>
+        /// <param name="effects">Status effects granted by this set effect.</param>
+        /// <param name="prefab">A prefab for this set effect.</param>
+        /// <param name="primarySkill">A primary skill granted by this set effect.</param>
+        /// <param name="secondarySkill">A secondary skill granted by this set effect.</param>
+        /// <param name="setEffectClip">An audio clip for activating this set effect. Defaults to <c>(seteffectSound)magic_shinny_high_tone_05</c>.</param>
+        /// <param name="nameKey">A localization key for the name of this set effect. Will be auto-generated if left default.</param>
+        /// <param name="descriptionKey">A localization key for the description of this set effect. Will be auto-generated if left default.</param>
+        /// <returns>A new <see cref="MySetEffectData"/>.</returns>
         public static MySetEffectData AddNew(string name, Sprite icon,
             MyWeaponData mainWeapon = null,
             MyWeaponData offWeapon = null,

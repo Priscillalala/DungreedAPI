@@ -11,6 +11,12 @@ namespace DungreedAPI
     /// <summary>
     /// Create and register costumes for the boutique.
     /// </summary>
+    /// <remarks>
+    /// <list>
+    /// <item><term><see cref="Add(MyCostumeData)"/></term><description>Register an existing <see cref="MyCostumeData"/>.</description></item>
+    /// <item><term><see cref="AddNew(string, GameObjectWithComponent{Char_Costume}, Sprite, bool, string[], MyItemData[], Sprite, Sprite, MyItemData[], bool, Optional{string}, Optional{string})"/></term><description>Create and register a new <see cref="MyCostumeData"/>.</description></item>
+    /// </list>
+    /// </remarks>
     public static class CostumeAPI
     {
         internal static CatalogWrapper<MyCostumeData> catalogWrapper;
@@ -68,6 +74,15 @@ namespace DungreedAPI
             }
         }
 
+        /// <summary>
+        /// Register an existing <see cref="MyCostumeData"/>.
+        /// </summary>
+        /// <remarks>
+        /// <paramref name="costume"/> will be assigned a new valid id.
+        /// </remarks>
+        /// <exception cref="InvalidOperationException">The <see cref="MyCostumesManager"/> catalog has already loaded.</exception>
+        /// <exception cref="ArgumentException"><paramref name="costume"/> is null.</exception>
+        /// <param name="costume">The existing costume to add.</param>
         public static void Add(MyCostumeData costume)
         {
             if (MyCostumesManager.Instance.IsInitialized)
@@ -81,6 +96,23 @@ namespace DungreedAPI
             managedCostumes.Add(new Named<MyCostumeData>(costume, costume.name));
         }
 
+        /// <summary>
+        /// Create and register a new <see cref="MyCostumeData"/>.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">The <see cref="MyCostumesManager"/> catalog has already loaded.</exception>
+        /// <param name="name">The name of this costume.</param>
+        /// <param name="prefab">A prefab for this costume.</param>
+        /// <param name="icon">An icon for this costume.</param>
+        /// <param name="startsUnlocked">Should this costume start unlocked?</param>
+        /// <param name="effects">Stattus effects granted by this costume.</param>
+        /// <param name="basicEquipmentItems">Items granted to this costume.</param>
+        /// <param name="handSprite">A sprite for the hands of this costume.</param>
+        /// <param name="unlockIcon">An unlock icon for this costume.</param>
+        /// <param name="unlockItemsAfterDefeatKaminela">Items unlocked by defeating Kaminela with this costume.</param>
+        /// <param name="cantEquipWings">Should this costume be banned from equipping #Wings?</param>
+        /// <param name="nameKey">A localization key for the name of this costume. Will be auto-generated if left default.</param>
+        /// <param name="descriptionKey">A localization key for the description of this costume. Will be auto-generated if left default.</param>
+        /// <returns>A new <see cref="MyCostumeData"/>.</returns>
         public static MyCostumeData AddNew(string name, GameObjectWithComponent<Char_Costume> prefab, Sprite icon,
             bool startsUnlocked = true,
             string[] effects = null,

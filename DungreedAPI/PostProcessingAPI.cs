@@ -10,6 +10,16 @@ using UnityEngine.PostProcessing;
 
 namespace DungreedAPI
 {
+    /// <summary>
+    /// Add new post processing profiles and dynamically alter post processing.
+    /// </summary>
+    /// <remarks>
+    /// <list>
+    /// <item><term><see cref="Add(PostProcessingProfile, out int)"/></term><description>Register a new post processing profile.</description></item>
+    /// <item><term><see cref="OnUpdatePostProcessing"/></term><description>Modify the current post processing profile.</description></item>
+    /// <item><term><see cref="RequestUpdate"/></term><description></description>Request a post processing update this frame.</item>
+    /// </list>
+    /// </remarks>
     public static class PostProcessingAPI
     {
         internal static int nextIdx = 2;
@@ -37,6 +47,11 @@ namespace DungreedAPI
             orig(self);
         }
 
+        /// <summary>
+        /// Register a new post processing profile.
+        /// </summary>
+        /// <param name="postProcessing">The post processing profile to add.</param>
+        /// <param name="idx">An id for this post processing.</param>
         public static void Add(PostProcessingProfile postProcessing, out int idx)
         {
             idx = nextIdx++;
@@ -101,6 +116,12 @@ namespace DungreedAPI
             model.enabled = originalModel.enabled;
         }
 
+        /// <summary>
+        /// Modify the current post processing profile.
+        /// </summary>
+        /// <remarks>
+        /// Subscribing or unsubscribing from this event will trigger a post processing update.
+        /// </remarks>
         public static event Action<PostProcessingProfile> OnUpdatePostProcessing
         {
             add
@@ -115,6 +136,9 @@ namespace DungreedAPI
             }
         }
 
+        /// <summary>
+        /// Request a post processing update this frame.
+        /// </summary>
         public static void RequestUpdate()
         {
             shouldUpdate = true;

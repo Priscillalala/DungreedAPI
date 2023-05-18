@@ -9,6 +9,15 @@ using UnityEngine.UI;
 
 namespace DungreedAPI
 {
+    /// <summary>
+    /// Create and register NPCs.
+    /// </summary>
+    /// <remarks>
+    /// <list>
+    /// <item><term><see cref="Add(MyNPCData)"/></term><description>Register an existing <see cref="MyNPCData"/>.</description></item>
+    /// <item><term><see cref="AddNew(string, GameObjectWithComponent{NPC_Rescuable}, int, int, Sprite, GameObjectWithComponent{NPC_Basic}, BuildData, string[], string[], string, Optional{string}, Optional{string})"/></term><description>Create and register a new <see cref="MyNPCData"/>.</description></item>
+    /// </list>
+    /// </remarks>
     public static class NpcAPI
     {
         internal static CatalogWrapper<MyNPCData> catalogWrapper;
@@ -68,6 +77,15 @@ namespace DungreedAPI
             }
         }
 
+        /// <summary>
+        /// Register an existing <see cref="MyNPCData"/>.
+        /// </summary>
+        /// <remarks>
+        /// <paramref name="npc"/> will be assigned a new valid id.
+        /// </remarks>
+        /// <exception cref="InvalidOperationException">The <see cref="MyNPCManager"/> catalog has already loaded.</exception>
+        /// <exception cref="ArgumentException"><paramref name="npc"/> is null.</exception>
+        /// <param name="npc">The existing npc to add.</param>
         public static void Add(MyNPCData npc)
         {
             if (MyNPCManager.Instance.LoadEnd)
@@ -81,6 +99,23 @@ namespace DungreedAPI
             managedNpcs.Add(new Named<MyNPCData>(npc, npc.name));
         }
 
+        /// <summary>
+        /// Create and register a new <see cref="MyNPCData"/>.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">The <see cref="MyNPCManager"/> catalog has already loaded.</exception>
+        /// <param name="name">The name of this NPC.</param>
+        /// <param name="prefab">A prefab for this NPC in the dungeon.</param>
+        /// <param name="firstStayFloor">The first floor this NPC appears in the dungeon.</param>
+        /// <param name="rescueEXPAmount">The amount of experience awarded for rescuing this NPC.</param>
+        /// <param name="icon">An icon for this NPC.</param>
+        /// <param name="townPrefab">A prefab for this NPC in the town.</param>
+        /// <param name="connectedBuilding">A build associated with this NPC.</param>
+        /// <param name="sayOnRescue">Dialogue on rescue.</param>
+        /// <param name="sayThanksForBuild">Dialogue on associated building completion.</param>
+        /// <param name="rescueCondition">Required flag for rescue.</param>
+        /// <param name="nameKey">A localization key for the name of this NPC. Will be auto-generated if left default.</param>
+        /// <param name="descriptionKey">A localization key for the description of this NPC. Will be auto-generated if left default.</param>
+        /// <returns>A new <see cref="MyNPCData"/>.</returns>
         public static MyNPCData AddNew(string name, GameObjectWithComponent<NPC_Rescuable> prefab, int firstStayFloor, int rescueEXPAmount, Sprite icon,
             GameObjectWithComponent<NPC_Basic> townPrefab = null,
             BuildData connectedBuilding = null,
