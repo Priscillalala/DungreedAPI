@@ -22,6 +22,8 @@ namespace DungreedAPI
             bool found = c.TryGotoNext(x => x.MatchStfld<SaveData>(nameof(SaveData.serializedData)));
             if (found)
             {
+                c.Emit(OpCodes.Ldarg, 0);
+                c.Emit(OpCodes.Dup);
                 c.Emit<SaveData>(OpCodes.Ldfld, nameof(SaveData.serializedData));
                 c.EmitDelegate<Func<SaveData.DataContainer[], SaveData.DataContainer[]>>(orig => 
                 {
