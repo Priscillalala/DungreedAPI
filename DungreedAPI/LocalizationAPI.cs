@@ -114,6 +114,10 @@ namespace DungreedAPI
         /// <param name="language">A language identifier.</param>
         public static void Add(string key, string value, string language = Languages.English)
         {
+            if (key == null || value == null)
+            {
+                return;
+            }
             if (alreadyAdded)
             {
                 if (MyLocalization.Instance.textValues.TryGetValue(language, out Dictionary<string, string> lang))
